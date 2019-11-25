@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class VolumeSampler : MonoBehaviour {
 	public Recording recorder;
 	public AudioSource fakeAudioSource;
 	public int windowMs = 100;
 	public float threshold = 0.1f; 
-	public string debugOutput = "";
+	public WordControl wordControl;
+	public SoundControl soundControl;
 
 	private int sampleDataLength = 1024;
+	private int delay = 1024;
 	private AudioClip clip; 
 	private DateTime lastTime = DateTime.Now;
 	private DateTime startTime;
@@ -37,9 +40,9 @@ public class VolumeSampler : MonoBehaviour {
 	}
 
 	void SetupChecks() {
-		if (!fakeAudioSource.isPlaying && isTime(startTime, sampleDataLength)) {
+		if (!fakeAudioSource.isPlaying && isTime(startTime, delay)) {
 			fakeAudioSource.clip = clip; 
-			fakeAudioSource.volume = 1f;
+			fakeAudioSource.volume = 0f;
 			fakeAudioSource.loop = true;
 			fakeAudioSource.Play();
 		}
@@ -56,12 +59,23 @@ public class VolumeSampler : MonoBehaviour {
 		var volume = GetMaxVolume();
 
 		if (volume > threshold) {
-			debugOutput = "fire " + volume;
+			FireWithIntensity(volume);
 		} else {
-			debugOutput = "";
+			wordControl.Unfire();
+			soundControl.Unfire();
 		}
 	}
 
+	void FireWithIntensity(float volume) {
+		var intensity = getIntensity(volume);
+
+		wordControl.Fire(intensity);
+		soundControl.Fire(windowMs);
+	}
+
+	float getIntensity(float volume) {
+		return (volume - threshold) / (1f - threshold);
+	}
 
 	float GetMaxVolume() {
 		var runningVolume = 0f;
