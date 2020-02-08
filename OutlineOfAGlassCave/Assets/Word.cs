@@ -8,10 +8,8 @@ public class Word : MonoBehaviour {
 	public float fadeOutTime;
 	public Boolean fadeIn;
 	public Boolean fadeOut; 
-
-	private int smallestFontSize = 30;
-	private int fontSizeFactor = 70;
-	private float fontSize;
+	
+	public int fontSize;
 	private GUIStyle style;
 	private Rect rect;
 	private static System.Random rand = new System.Random();
@@ -30,7 +28,7 @@ public class Word : MonoBehaviour {
 	void initStyle() {
 		style = new GUIStyle ();
 		
-		style.fontSize = getFontSize(fontSize);
+		style.fontSize = fontSize;
 		mainColour = getColour();
 		invisible = new Color(mainColour.r, mainColour.g, mainColour.b, 0f);
 		style.normal.textColor = fadeIn ? invisible : mainColour;
@@ -48,17 +46,8 @@ public class Word : MonoBehaviour {
 		rect = new Rect(x, y, 100, 100);
 	}
 
-	int getFontSize(float size){
-		if (size < 0.5){ 
-			size = size*size;} 
-		else {
-			size = 1f - (1f- size)*(1f - size);
-		}
-		
-		return smallestFontSize + Mathf.RoundToInt(size*fontSizeFactor);
-	}
 	
-	public void Init(string word, float size, float fadeIn, float fadeOut){
+	public void Init(string word, int size, float fadeIn, float fadeOut){
 		fontSize = size;
 		initStyle();
 		theWord = word;

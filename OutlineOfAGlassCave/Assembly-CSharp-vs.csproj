@@ -46,9 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\DebugVolume.cs" />
      <Compile Include="Assets\FadeOutAndDestroy.cs" />
+     <Compile Include="Assets\Fireables.cs" />
      <Compile Include="Assets\PitchOscillator.cs" />
      <Compile Include="Assets\Recording.cs" />
+     <Compile Include="Assets\ScreenIOControl.cs" />
      <Compile Include="Assets\SoundControl.cs" />
      <Compile Include="Assets\StayAwake.cs" />
      <Compile Include="Assets\VolumeSampler.cs" />

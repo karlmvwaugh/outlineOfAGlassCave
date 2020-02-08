@@ -15,6 +15,14 @@ public class WordDef {
 
 public class WordControl : MonoBehaviour {
 	public GameObject rawWord;
+	public float sizeFactor = 0f;
+
+	private int smallestFontSize() {
+		return Mathf.FloorToInt(20f + sizeFactor * 75f);
+	}
+	private float fontSizeFactor() {
+		return 40f + sizeFactor * 150f;
+	}
 
 	private string[] TheBook;
 	private int maxNumberOfWords = 4;
@@ -35,10 +43,7 @@ public class WordControl : MonoBehaviour {
 	}
 
 	public void Fire(float intensity) {
-		//wordDefs.Add(new WordDef(nextWord(), sizeConversion(intensity)));
-
-
-		Launch (nextWord(), sizeConversion(intensity));
+		Launch (nextWord(), intensity);
 		sortOutCleanUpOfObjects();
 	}
 
@@ -90,10 +95,6 @@ public class WordControl : MonoBehaviour {
 		return TheBook[index];
 	}
 
-	float sizeConversion(float intensity) {
-		return intensity;
-	}
-
 	void Launch(string nextWord, float size){
 		var ob = (GameObject)Instantiate(rawWord);
 		var wordOb = ob.GetComponent<Word>();
@@ -101,10 +102,22 @@ public class WordControl : MonoBehaviour {
 		var fadeIn = (float)rand.Next(50, 250);
 		var fadeOut = (float)rand.Next(1500, 30000);
 
-		wordOb.Init(nextWord, size, fadeIn, fadeOut);
+		wordOb.Init(nextWord, getFontSize(size), fadeIn, fadeOut);
 
 		gameObjects.Add(ob); 
 	}
+
+	
+	int getFontSize(float size){
+		if (size < 0.5){ 
+			size = size*size;} 
+		else {
+			size = 1f - (1f- size)*(1f - size);
+		}
+		
+		return smallestFontSize() + Mathf.RoundToInt(size*fontSizeFactor());
+	}
+
 
 	private string poem = "A switch Blue swatches matched to each sq each pitch float against chronic misunderstanding leaks and a sold quarter "
 		+ "weighed down pitched corrected every corner sliced diced mounted monuments stored in data in detail of monotonic decreasing everywhere so "

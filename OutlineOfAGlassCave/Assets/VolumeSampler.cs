@@ -8,8 +8,7 @@ public class VolumeSampler : MonoBehaviour {
 	public AudioSource fakeAudioSource;
 	public int windowMs = 100;
 	public float threshold = 0.1f; 
-	public WordControl wordControl;
-	public SoundControl soundControl;
+	public Fireables fireables;
 
 	private int sampleDataLength = 1024;
 	private int delay = 1024;
@@ -61,16 +60,13 @@ public class VolumeSampler : MonoBehaviour {
 		if (volume > threshold) {
 			FireWithIntensity(volume);
 		} else {
-			wordControl.Unfire();
-			soundControl.Unfire();
+			fireables.Unfire(volume);
 		}
 	}
 
 	void FireWithIntensity(float volume) {
 		var intensity = getIntensity(volume);
-
-		wordControl.Fire(intensity);
-		soundControl.Fire(windowMs);
+		fireables.Fire(volume, intensity, windowMs);
 	}
 
 	float getIntensity(float volume) {
