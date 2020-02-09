@@ -7,8 +7,12 @@ public class Word : MonoBehaviour {
 	public string actualWord;
 	public float fadeInTime;
 	public float fadeOutTime;
-	public float typeStep = 123;
-	public float typeTime;
+
+	private float minType = 50f;
+	private float maxType = 120f;
+
+	private float typeStep;
+	private float typeTime;
 
 	public Boolean fadeIn;
 	public Boolean fadeOut; 
@@ -57,6 +61,7 @@ public class Word : MonoBehaviour {
 		theWord = "";
 		actualWord = word;
 
+		typeStep = minType + (float)rand.NextDouble()*(maxType - minType);
 		typeTime = (word.Length + 1) * typeStep;
 		fadeOutTime = fadeIn;
 		fadeOutTime = fadeOut;

@@ -6,6 +6,7 @@ public class DebugVolume : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		renderer = GetComponent<SpriteRenderer>();
+		renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.3f);
 	}
 	
 	// Update is called once per frame

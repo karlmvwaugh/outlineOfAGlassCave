@@ -31,7 +31,7 @@ public class PitchOscillator : MonoBehaviour {
 	public void Init(float pitch) {
 		initialPitch = pitch;
 		startTime = DateTime.Now;
-		speed = 0.01f + (float)rand.NextDouble()*0.59f;
+		speed = 0.001f + (float)rand.NextDouble()*0.399f;
 		started = true;
 
 	}
