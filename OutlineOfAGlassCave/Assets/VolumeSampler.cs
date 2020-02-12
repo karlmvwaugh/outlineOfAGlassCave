@@ -12,10 +12,13 @@ public class VolumeSampler : MonoBehaviour {
 
 	private int sampleDataLength = 1024;
 	private int delay = 1024;
+	private int maxAcceptableLag = 4000;
 	private AudioClip clip; 
 	private DateTime lastTime = DateTime.Now;
 	private DateTime startTime;
 	private float[] clipData;
+	private Rect debugRect = new Rect(0f, 0f, 50f, 50f);
+	private GUIStyle style = new GUIStyle ();
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +29,10 @@ public class VolumeSampler : MonoBehaviour {
 
 		startTime = DateTime.Now;
 		lastTime = DateTime.Now;
+		SetupChecks();
+
+		style.fontSize = 10;
+		style.normal.textColor = Color.black;
 	}
 	
 	// Update is called once per frame
@@ -36,6 +43,8 @@ public class VolumeSampler : MonoBehaviour {
 		if (IsRunVolume()) {
 			RunVolumeCheck();
 		}
+
+		maxLagCheck();
 	}
 
 	void SetupChecks() {
@@ -43,12 +52,20 @@ public class VolumeSampler : MonoBehaviour {
 			fakeAudioSource.clip = clip; 
 			fakeAudioSource.volume = 0f;
 			fakeAudioSource.loop = true;
+			fakeAudioSource.timeSamples = (Microphone.GetPosition(null) - delay);
 			fakeAudioSource.Play();
 		}
 	}
 
 	Boolean IsRunVolume() {
 		return fakeAudioSource.isPlaying && isTime(lastTime, windowMs);
+	}
+
+	void maxLagCheck() {
+		var lag = getLag(); 
+		if (lag > maxAcceptableLag) {
+			fakeAudioSource.timeSamples = (Microphone.GetPosition(null) - delay);
+		}
 	}
 
 	void RunVolumeCheck() {
@@ -94,5 +111,14 @@ public class VolumeSampler : MonoBehaviour {
 			return true;
 		}
 		return false; 
+	}
+
+
+	void OnGUI(){
+		GUI.Label(debugRect, "LAG=" + getLag(), style);
+	}
+
+	int getLag() {
+		return Microphone.GetPosition(null) - fakeAudioSource.timeSamples;
 	}
 }
