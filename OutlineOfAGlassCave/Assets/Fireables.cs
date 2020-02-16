@@ -29,6 +29,6 @@ public class Fireables : MonoBehaviour {
 	public void Unfire(float rawVolume) {
 		wordControl.Unfire();
 		soundControl.Unfire();
-		debugVolume.Fire(rawVolume);
+		debugVolume.Unfire(rawVolume);
 	}
 }

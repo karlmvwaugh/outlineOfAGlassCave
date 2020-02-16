@@ -20,7 +20,7 @@ public class ScreenIOControl : MonoBehaviour {
 
 
 	void processYCoord(float y) {
-		volumeSampler.threshold = y;
+		volumeSampler.threshold = Mathf.Pow(y, 2f);
 	}
 
 	void processXCoord(float x) {

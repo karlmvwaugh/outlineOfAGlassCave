@@ -12,7 +12,7 @@ public class VolumeSampler : MonoBehaviour {
 
 	private int sampleDataLength = 1024;
 	private int delay = 1024;
-	private int maxAcceptableLag = 4000;
+	private int maxAcceptableLag = 11000;
 	private AudioClip clip; 
 	private DateTime lastTime = DateTime.Now;
 	private DateTime startTime;
@@ -93,7 +93,9 @@ public class VolumeSampler : MonoBehaviour {
 	float GetMaxVolume() {
 		var runningVolume = 0f;
 		foreach(var sample in clipData) {
-			runningVolume += Mathf.Abs(sample);
+			if (sample != null) {
+				runningVolume += Mathf.Abs(sample);
+			}
 		}
 		return runningVolume / sampleDataLength;
 	}
