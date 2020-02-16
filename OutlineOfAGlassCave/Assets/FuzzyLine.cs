@@ -8,16 +8,28 @@ public class FuzzyLine : MonoBehaviour {
 	private float maxX = 8f;
 	private float stepSize;
 	private static System.Random rand = new System.Random();
+	private double stateChangeThreshold = 0.95;
+	private double highState = 0.8;
+	private double lowState = 0.2;
+	private bool state = false;
+
 
 	// Use this for initialization
 	void Start () {
-		stepSize = 0.007f * (float)rand.NextDouble();
 		Color c = renderer.material.color;
 		c.a = 0.1f;
 		renderer.material.color = c; 
 
 		var position = transform.position;
 		transform.position = new Vector3((float)rand.NextDouble()*16f - 8f, position.y, position.z);
+
+
+		stepSize = 0.008f * (float)rand.NextDouble();
+		state = rand.NextDouble() > 0.5;
+		stateChangeThreshold = 0.97 + 0.02999*rand.NextDouble();
+		highState = 0.6 + 0.3*rand.NextDouble();
+		lowState = 1.0 - highState;
+
 	}
 	
 	// Update is called once per frame
@@ -45,7 +57,6 @@ public class FuzzyLine : MonoBehaviour {
 		return xValue;
 	}
 
-	private bool state = false;
 
 	bool BurstRandom() {
 		ChangeStateMaybe();
@@ -57,22 +68,17 @@ public class FuzzyLine : MonoBehaviour {
 	}
 
 	void ChangeStateMaybe() {
-		var threshold = 0.95;
-		if (state) {
-			threshold = 0.95;
-		}
-
-		if (rand.NextDouble() > threshold) {
+		if (rand.NextDouble() > stateChangeThreshold) {
 			state = !state;
 		}
 	}
 
 	bool HighState() {
-		return (rand.NextDouble() > 0.8);
+		return (rand.NextDouble() > highState);
 	}
 
 	bool LowState() {
-		return (rand.NextDouble() > 0.2);
+		return (rand.NextDouble() > lowState);
 	}
 
 }

@@ -8,7 +8,7 @@ public class SoundControl : MonoBehaviour {
 	public GameObject player;
 	public string debug = "";
 
-	private int maxNumberOfLoops = 4;
+	private int maxNumberOfLoops = 8;
 	private DateTime startTime; 
 	private DateTime endTime;
 	private static System.Random rand = new System.Random();
