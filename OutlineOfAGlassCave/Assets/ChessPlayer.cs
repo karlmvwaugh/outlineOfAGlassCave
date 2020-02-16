@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class ChessPlayer : MonoBehaviour {
-	public int moveMs; 
+
 	public int xPosition; //0-7
 	public int yPosition;
 
-	private DateTime lastTime;
 	private static System.Random rand = new System.Random();
 
 	private List<Moves> directions = new List<Moves>() {
@@ -21,19 +20,19 @@ public class ChessPlayer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		lastTime = DateTime.Now;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (isTime(moveMs)) {
-			var allPossibleMoves = GetAllPossibleMoves();
-			ChooseAMove(allPossibleMoves);
-		}
+	}
+
+	public void MovePieces() {
+		var allPossibleMoves = GetAllPossibleMoves();
+		ChooseAMove(allPossibleMoves);
 	}
 
 	void ChooseAMove(List<Moves> allPossibleMoves) {
-		var index = rand.Next (0, allPossibleMoves.Count - 1);
+		var index = rand.Next (0, allPossibleMoves.Count);
 		var move = allPossibleMoves[index];
 		xPosition = move.x;
 		yPosition = move.y;
@@ -69,15 +68,6 @@ public class ChessPlayer : MonoBehaviour {
 		return new Moves(xPosition, yPosition);
 	}
 
-	Boolean isTime(int window) {
-		var now = DateTime.Now;
-		var difference = (now - lastTime).TotalMilliseconds;
-		if (difference > window) {
-			lastTime = now;
-			return true;
-		}
-		return false; 
-	}
 
 	public class Moves {
 		public int x;

@@ -83,7 +83,7 @@ public class SoundControl : MonoBehaviour {
 		// kick off 
 		newSource.clip = newClip;
 		newSource.loop = true;
-		newSource.pitch = 0.01f + (float)rand.NextDouble()*0.14f;
+		newSource.pitch = 0.005f + (float)rand.NextDouble()*0.125f;
 		newSource.volume = 0.4f + (float)rand.NextDouble()*0.2f;
 		newSource.Play();
 

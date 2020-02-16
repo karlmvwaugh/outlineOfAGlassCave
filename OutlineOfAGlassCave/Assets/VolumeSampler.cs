@@ -48,7 +48,7 @@ public class VolumeSampler : MonoBehaviour {
 	}
 
 	void SetupChecks() {
-		if (!fakeAudioSource.isPlaying && isTime(startTime, delay)) {
+		if (!fakeAudioSource.isPlaying && isTime(startTime, delay) && Microphone.GetPosition(null) > 0) {
 			fakeAudioSource.clip = clip; 
 			fakeAudioSource.volume = 0f;
 			fakeAudioSource.loop = true;

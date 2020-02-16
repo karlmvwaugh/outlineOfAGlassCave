@@ -16,6 +16,8 @@ public class WordDef {
 public class WordControl : MonoBehaviour {
 	public GameObject rawWord;
 	public float sizeFactor = 0f;
+	public int maxNumberOfWords = 8;
+	
 
 	private int smallestFontSize() {
 		return Mathf.FloorToInt(20f + sizeFactor * 75f);
@@ -24,8 +26,7 @@ public class WordControl : MonoBehaviour {
 		return 40f + sizeFactor * 150f;
 	}
 
-	private string[] TheBook;
-	private int maxNumberOfWords = 4;
+	public string[] TheBook = new string[]{ "hello", "world" };
 	private static System.Random rand = new System.Random();
 
 	private List<WordDef> wordDefs = new List<WordDef>();
@@ -34,7 +35,6 @@ public class WordControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		TheBook = poem.Split(new string[]{" "}, new StringSplitOptions()); 
 	}
 	
 	// Update is called once per frame
@@ -118,12 +118,4 @@ public class WordControl : MonoBehaviour {
 		return smallestFontSize() + Mathf.RoundToInt(size*fontSizeFactor());
 	}
 
-
-	private string poem = "A switch Blue swatches matched to each sq each pitch float against chronic misunderstanding leaks and a sold quarter "
-		+ "weighed down pitched corrected every corner sliced diced mounted monuments stored in data in detail of monotonic decreasing everywhere so "
-			+ "much for thinking tonight is the best things to women because of this email and delete delete it immediately point your fingers crossed "
-			+ "for details again later but ok and that is not available application appreciate appointment with you the beauty of the other I since private "
-			+ "message privileged confidential proprietary or legally protected information hence the corresponding services without the historical society "
-			+ "baggage allowance is made up blinking lights of the other each song sounds like a lot of money an interview infant infallible inedible edited "
-			+ "together to ISO certified company food grumby lush ambient temperature especially the octopus a bit wet watermark when liquid crystal display ";
 }

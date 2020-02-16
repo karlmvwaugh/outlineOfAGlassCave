@@ -8,8 +8,8 @@ public class Word : MonoBehaviour {
 	public float fadeInTime;
 	public float fadeOutTime;
 
-	private float minType = 50f;
-	private float maxType = 120f;
+	private float minType = 60f;
+	private float maxType = 180f;
 
 	private float typeStep;
 	private float typeTime;
@@ -23,6 +23,7 @@ public class Word : MonoBehaviour {
 	private static System.Random rand = new System.Random();
 	private Color invisible;
 	private Color mainColour;
+	private Color originalColour;
 	private DateTime startTime;
 	private bool started = false;
 	private bool fadingOut = false;
@@ -38,17 +39,11 @@ public class Word : MonoBehaviour {
 
 		style.fontSize = fontSize;
 		mainColour = getColour();
+		originalColour = mainColour;
 		invisible = new Color(mainColour.r, mainColour.g, mainColour.b, 0f);
 		style.normal.textColor = fadeIn ? invisible : mainColour;
-		// var r = rand.Next(5);
-		// if (r == 0 || r == 1){
-		// 	style.fontStyle = FontStyle.Italic;
-		// } else if(r == 2) {
-		// 	style.fontStyle = FontStyle.Bold;
-		// } else {
-			style.fontStyle = FontStyle.Normal; 
+		style.fontStyle = FontStyle.Normal; 
 
-		// }
 		var x = (float)rand.NextDouble()*0.9f*Screen.width; // - 0.5f*Screen.width;
 		var y = (float)rand.NextDouble()*0.9f*Screen.height; // - 0.5f*Screen.height;
 		rect = new Rect(x, y, 100, 100);
@@ -87,6 +82,7 @@ public class Word : MonoBehaviour {
 		var fadeDif = fadingOut ? (float)(now - fadeOutStartTime).TotalMilliseconds : float.PositiveInfinity;
 
 		typeOut(dif);
+		flickerText();
 		if (fadeIn && dif < fadeInTime){
 			fadeInColour(dif);
 		} else if (fadingOut && fadeDif > fadeOutTime){
@@ -117,7 +113,36 @@ public class Word : MonoBehaviour {
 	void OnGUI(){
 		GUI.Label(rect, theWord, style);
 	}
-	
+
+	void flickerText() {
+		var newAlpha = adjustAlpha(originalColour.a);
+		mainColour = new Color(originalColour.r, originalColour.g, originalColour.b, newAlpha);
+
+
+		style.normal.textColor = mainColour;
+	}
+
+	float adjustAlpha(float alpha) {
+		var newAlpha = alpha;
+		var stepSize = 0.01f;
+		if (BurstRandom()) {
+			newAlpha = modValue(newAlpha + stepSize*(float)rand.NextDouble());
+		} else {
+			newAlpha = modValue(newAlpha - stepSize*(float)rand.NextDouble());
+		}
+		return newAlpha;
+	}
+
+	float modValue(float alpha) {
+		if (alpha > 1f) {
+			return modValue(alpha - 1f);
+		} 
+		if (alpha < 0f) {
+			return modValue(alpha + 1f);
+		}
+		return alpha; 
+	}
+
 	Color getColour(){
 		var maxBrightness = 0.05f;
 		var a = (float)(0.2 + 0.5*rand.NextDouble()); 
@@ -127,5 +152,35 @@ public class Word : MonoBehaviour {
 
 		
 		return new Color(greyShadeR, greyShadeG, greyShadeB, a); 
+	}
+
+	private bool state = false;
+	
+	bool BurstRandom() {
+		ChangeStateMaybe();
+		if (state) {
+			return HighState();
+		} else {
+			return LowState();
+		}
+	}
+	
+	void ChangeStateMaybe() {
+		var threshold = 0.95;
+		if (state) {
+			threshold = 0.95;
+		}
+		
+		if (rand.NextDouble() > threshold) {
+			state = !state;
+		}
+	}
+	
+	bool HighState() {
+		return (rand.NextDouble() > 0.8);
+	}
+	
+	bool LowState() {
+		return (rand.NextDouble() > 0.2);
 	}
 }

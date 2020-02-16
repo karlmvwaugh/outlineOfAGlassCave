@@ -18,7 +18,7 @@ public class PitchOscillator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		source = GetComponent<AudioSource>();
-		width = 0.10f + 1.9f*(float)rand.NextDouble();
+		width = 0.10f + 1.4f*(float)rand.NextDouble();
 	}
 	
 	// Update is called once per frame
@@ -31,7 +31,7 @@ public class PitchOscillator : MonoBehaviour {
 	public void Init(float pitch) {
 		initialPitch = pitch;
 		startTime = DateTime.Now;
-		speed = 0.001f + (float)rand.NextDouble()*0.399f;
+		speed = 0.001f + (float)rand.NextDouble()*0.299f;
 		started = true;
 
 	}
