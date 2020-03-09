@@ -52,6 +52,7 @@
      <Compile Include="Assets\FadeOutAndDestroy.cs" />
      <Compile Include="Assets\Fireables.cs" />
      <Compile Include="Assets\FuzzyLine.cs" />
+     <Compile Include="Assets\MaxStaying.cs" />
      <Compile Include="Assets\PitchOscillator.cs" />
      <Compile Include="Assets\Recording.cs" />
      <Compile Include="Assets\ScreenIOControl.cs" />

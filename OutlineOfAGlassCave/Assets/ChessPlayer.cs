@@ -9,6 +9,9 @@ public class ChessPlayer : MonoBehaviour {
 	public int xPosition; //0-7
 	public int yPosition;
 
+	public int maxX;
+	public int maxY;
+
 	private static System.Random rand = new System.Random();
 
 	private List<Moves> directions = new List<Moves>() {
@@ -61,7 +64,7 @@ public class ChessPlayer : MonoBehaviour {
 	}
 
 	Boolean IsOnBoard(Moves move) {
-		return (move.x >= 0 && move.x <= 7 && move.y >= 0 && move.y <= 7);
+		return (move.x >= 0 && move.x <= maxX && move.y >= 0 && move.y <= maxY);
 	}
 
 	Moves CurrentMove() {

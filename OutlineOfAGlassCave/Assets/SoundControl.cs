@@ -6,9 +6,9 @@ using System.Collections.Generic;
 public class SoundControl : MonoBehaviour {
 	public AudioSource theRecorder;
 	public GameObject player;
+	public int maxNumberOfLoops = 8;
 	public string debug = "";
 
-	private int maxNumberOfLoops = 8;
 	private DateTime startTime; 
 	private DateTime endTime;
 	private static System.Random rand = new System.Random();
